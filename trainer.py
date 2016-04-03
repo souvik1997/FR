@@ -13,7 +13,7 @@ def evalFitness(ind):
     print("{0}: {1}".format(ind[0], float(output)))
     return (float(output),)
 
-MAX_X = 400
+MAX_X = 100
 CXPB = 0.8
 NGEN = 20
 
