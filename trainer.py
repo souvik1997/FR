@@ -3,10 +3,15 @@ import random
 from deap import base
 from deap import creator
 from deap import tools
+import subprocess
 
 def evalFitness(ind):
-    print(ind)
-    return (ind[0],)
+    with open("cutinfo.txt", "w") as tf:
+        tf.write("0, 0, {0}, 50.0, 43.5, 1.0, 0.0, 0.0".format(ind[0]))
+    p = subprocess.Popen(["./slicing", "Colonel.obj", "cutinfo.txt"], stdout=subprocess.PIPE)
+    output, _ = p.communicate()
+    print("{0}: {1}".format(ind[0], float(output)))
+    return (float(output),)
 
 MAX_X = 400
 CXPB = 0.8
