@@ -19,7 +19,7 @@ NGEN = 20
 MUTPB = 0.1
 
 toolbox = base.Toolbox()
-creator.create("FitnessMax", base.Fitness, weights=(-1.0,))
+creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
 creator.create("Individual", list, fitness=creator.FitnessMax)
 toolbox.register("xvalue", lambda: MAX_X*random.random())
 toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.xvalue, 1)
