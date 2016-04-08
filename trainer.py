@@ -8,7 +8,7 @@ import subprocess
 def evalCost(ind):
     with open("cutinfo.txt", "w") as tf:
         tf.write("0, 0, {0}, 50.0, 43.5, 1.0, 0.0, 0.0".format(ind[0]))
-    p = subprocess.Popen(["./slicing", "Colonel.obj", "cutinfo.txt"], stdout=subprocess.PIPE)
+    p = subprocess.Popen(["./slicing", "Yoda-Lite.stl.obj", "cutinfo.txt"], stdout=subprocess.PIPE)
     output, _ = p.communicate()
     print("{0}: {1}".format(ind[0], float(output)))
     return (float(output),)
@@ -22,7 +22,7 @@ POPSIZE = 15
 toolbox = base.Toolbox()
 creator.create("CostMin", base.Fitness, weights=(-1.0,))
 creator.create("Individual", list, fitness=creator.CostMin)
-toolbox.register("xvalue", lambda: MAX_X*random.random())
+toolbox.register("xvalue", lambda: (MAX_X*random.random() - 50))
 toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.xvalue, 1)
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
