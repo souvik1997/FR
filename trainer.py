@@ -5,7 +5,7 @@ from deap import creator
 from deap import tools
 import subprocess
 
-def evalFitness(ind):
+def evalCost(ind):
     with open("cutinfo.txt", "w") as tf:
         tf.write("0, 0, {0}, 50.0, 43.5, 1.0, 0.0, 0.0".format(ind[0]))
     p = subprocess.Popen(["./slicing", "Colonel.obj", "cutinfo.txt"], stdout=subprocess.PIPE)
@@ -17,20 +17,21 @@ MAX_X = 100
 CXPB = 0.8
 NGEN = 20
 MUTPB = 0.1
+POPSIZE = 15
 
 toolbox = base.Toolbox()
-creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
-creator.create("Individual", list, fitness=creator.FitnessMax)
+creator.create("CostMin", base.Fitness, weights=(-1.0,))
+creator.create("Individual", list, fitness=creator.CostMin)
 toolbox.register("xvalue", lambda: MAX_X*random.random())
 toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.xvalue, 1)
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
-toolbox.register("evaluate", evalFitness)
+toolbox.register("evaluate", evalCost)
 toolbox.register("mate", tools.cxBlend, alpha=0.01)
 toolbox.register("mutate", tools.mutGaussian, mu=0, sigma=5, indpb=1)
 toolbox.register("select", tools.selTournament, tournsize=3)
 
-pop = toolbox.population(15)
+pop = toolbox.population(POPSIZE)
 for g in xrange(NGEN):
     print("Generation {0}".format(g))
     offspring = toolbox.select(pop, len(pop))
