@@ -5,27 +5,11 @@
 #include <Eigen/Geometry>
 #include <fstream>
 #include <sstream>
+#include <slicing.h>
 
 using namespace Eigen;
 using namespace std;
 
-struct CutNode
-{
-	CutNode() : lchild(NULL), rchild(NULL) {}
-	~CutNode() {delete lchild; delete rchild;}
-
-	Vector3d pt;
-	Vector3d n;
-	CutNode *lchild, *rchild;
-};
-
-struct LineInfo
-{
-	int lchild;
-	int rchild;
-	Vector3d pt;
-	Vector3d n;
-};
 
 CutNode *buildCutTree(const vector<LineInfo> &lines, int curline)
 {
@@ -315,12 +299,6 @@ int slice(CutNode* cuttree, string filename)
 			piecesV[i](j,2) -= minz;
 
 		totcost += costFunction(piecesV[i], piecesF[i], 1e-6);
-
-		stringstream ss;
-		ss << "piece-" << i << ".obj";
-		igl::writeOBJ(ss.str(), piecesV[i], piecesF[i]);
 	}
-
-	delete cuttree;
 	return totcost;
 }
