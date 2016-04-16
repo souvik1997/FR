@@ -64,7 +64,7 @@ Vector3d supportingPlane(const MatrixXd &V, const Vector3d &n)
 	Vector3d result(0,0,0);
 	int nverts = V.rows();
 
-	double furthestdist = -numeric_limits<double>::infinity();	
+	double furthestdist = -numeric_limits<double>::infinity();
 
 	for(int i=0; i<nverts; i++)
 	{
@@ -121,7 +121,7 @@ void makeCube(const MatrixXd &V, const Vector3d &pt, const Vector3d &dir, double
 
 	Vector3d side3v = supportingPlane(V, -perp);
 	side3v -= padding*perp;
-	
+
 	Vector3d side4v = supportingPlane(V, -perp2);
 	side4v -= padding*perp2;
 
@@ -264,7 +264,7 @@ Matrix3d computeRotation(const Vector3d &newup)
 	result.row(0) = axis1;
 	result.row(1) = axis2;
 	result.row(2) = -n;
-	return result;			
+	return result;
 }
 
 double costFunction(const MatrixXd &V, const MatrixXi &F, double groundTol)
@@ -289,23 +289,13 @@ double costFunction(const MatrixXd &V, const MatrixXi &F, double groundTol)
 	return cost;
 }
 
-int main(int argc, char *argv[])
+int slice(CutNode* cuttree, string filename)
 {
-	if(argc != 3)
-	{
-		cerr << "Usage: slicing (mesh .obj file) (cutting description .txt file)" << endl;
-		return -1;
-	}
 
 	Eigen::MatrixXd V;
 	Eigen::MatrixXi F;
-	igl::readOBJ(argv[1], V, F);
-	CutNode *cuttree = parseCutFile(argv[2]);
-	if(cuttree == NULL)
-	{
-		cerr << "Couldn't read cutting description file" << endl;
-		return -1;
-	}
+	igl::readOBJ(filename, V, F);
+
 
 	vector<MatrixXd> piecesV;
 	vector<MatrixXi> piecesF;
@@ -330,8 +320,7 @@ int main(int argc, char *argv[])
 		ss << "piece-" << i << ".obj";
 		igl::writeOBJ(ss.str(), piecesV[i], piecesF[i]);
 	}
-	cout << totcost << endl;
 
 	delete cuttree;
-	return 0;
+	return totcost;
 }
