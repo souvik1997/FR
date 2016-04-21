@@ -20,16 +20,16 @@ CutNode generateCut(double a, double b, double c, double d)
 
 
 int main(int argc, char *argv[]) {
-  cout << "im here\n";
+
 
   double z = 0;
   for(double x = -1; x <= 1; x += 0.2) {
     for(double y = -(sqrt(1 - x*x)); y <= sqrt(1 - x*x); y += 0.2) {
       for(double l = 0; l < 110; l += 10) {
-        cout << "in loop\n";
+
         z = 1 - x*x - y*y;
         CutNode cn = generateCut(x, y, z, l);
-        cout << " x= " <<  x << " y = " << y << " z = " << z << " l = " << l << " cost = " << slice(&cn, "Colonel.obj") << "\n";
+        cout <<  x << " " << y << " " << z << " " << l << "= " << slice(&cn, "Colonel.obj") << "\n";
       }
     }
   }
