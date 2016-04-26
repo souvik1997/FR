@@ -1,4 +1,4 @@
-from __future__ import printfn
+!from __future__ import print_function
 import numpy as np
 from scipy import linalg
 
