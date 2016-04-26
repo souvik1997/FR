@@ -79,7 +79,7 @@ def evalCost(individual):
 toolbox.register("evaluate", evalCost)
 
 # register the crossover operator
-toolbox.register("mate", tools.cxBlend, alpha=0.01)
+toolbox.register("mate", tools.cxBlend, alpha=0.0)
 
 # register a mutation operator with a probability to
 # flip each attribute/gene of 0.05
