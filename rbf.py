@@ -1,53 +1,53 @@
-from __future__ import print_function
-import scipy
-from scipy.interpolate import Rbf
-import sys
-import math
-a = []
-b = []
-c = []
-d = []
-cost = []
-count = True
-with open(sys.argv[1]) as fn:
-    for line in fn:
-        cols = line.split(" ")
-        if len(cols) == 5 and count is False:
-            a.append(float(cols[0]))
-            b.append(float(cols[1]))
-            c.append(float(cols[2]))
-            d.append(float(cols[3]))
-            cost.append(float(cols[4]))
-        count = count is False
-def frange(start, end=None, inc=None):
-    "A range function, that does accept float increments..."
+from __future__ import printfn
+import numpy as np
+from scipy import linalg
 
-    if end == None:
-        end = start + 0.0
-        start = 0.0
+class Rbf:
 
-    if inc == None:
-        inc = 1.0
+    def __init__(self, *args, **kwargs):
+        self.inputs = []
+        for x in args[:-1]:
+            self.inputs.append(np.asarray(x, dtype=np.float_))
+        self.inputs = np.asarray(self.inputs)
+        self.num_inputs = len(args[0])
+        self.expected_outputs = np.asarray(args[-1])
 
-    L = []
-    while 1:
-        next = start + len(L) * inc
-        if inc > 0 and next >= end:
-            break
-        elif inc < 0 and next <= end:
-            break
-        L.append(next)
+        raw_matrix = self.norm(self.inputs, self.inputs)
+        self.epsilon = kwargs.pop('epsilon')
+        self.smooth = kwargs.pop('smooth')
 
-    return L
+        self.fn = lambda r: np.exp(-(1.0/self.epsilon*r)**2)
+        self.rbf_matrix = self.fn(raw_matrix) - np.eye(self.num_inputs)*self.smooth
 
-rbfi = Rbf(a,b,c,d,cost, smooth=0.5)
-minimum = (0, 0, 0, 0, 1000000)
-for x in set(a):
-    for y in frange(-math.sqrt(1-x**2), math.sqrt(1-x**2), 0.2):
-        for l in set(d):
-            z = 1- x**2 - y**2
-            val = rbfi(x,y,z,l)
-            print("{0} {1} {2} {3} {4}".format(x,y,z,l, val))
-            if val < minimum[4]:
-                minimum = (x, y, z, l, val)
-print(minimum)
+        self.nodes = linalg.solve(self.rbf_matrix, self.expected_outputs)
+
+
+    def __call__(self, *args):
+        np_args = []
+        for i in args:
+            np_args.append(np.asarray(i).flatten())
+        cur_inputs = np.asarray(np_args, dtype=np.float_)
+        distances = self.norm(cur_inputs, self.inputs)
+        return np.dot(self.fn(distances), self.nodes)[0]
+
+
+    def norm(self, a, b):
+        a = self.tranpose(a)
+        b = self.fix_shape(b)
+        return np.sqrt(((a - b)**2).sum(axis=0))
+
+    def fix_shape(self, a):
+        res = []
+        for i in a:
+            res.append([i])
+        return np.asarray(res)
+
+    def tranpose(self, a):
+        a_transpose = []
+        if len(a.shape) == 1:
+            for i in a:
+                a_transpose.append([i])
+        else:
+            for i in a:
+                a_transpose.append(self.tranpose(i))
+        return np.asarray(a_transpose)
