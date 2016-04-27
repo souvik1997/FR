@@ -8,8 +8,8 @@ import subprocess
 import sys
 import math
 import numpy as np
-#from rbf import Rbf
-from scipy.interpolate import Rbf
+from rbf import Rbf
+#from scipy.interpolate import Rbf
 
 def train(individual_generator, rbfi):
     def evalFitness(ind):

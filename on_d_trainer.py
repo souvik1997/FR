@@ -9,6 +9,8 @@ from find_minimum import train
 from scipy.interpolate import Rbf
 import sys
 import random
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 def one_d_array():
@@ -25,5 +27,10 @@ with open(sys.argv[1]) as fn:
             cost.append(float(cols[1]))
 
 
-rbfi = Rbf(a, cost, epsilon=0.1, smooth=3)
+rbfi = Rbf(a, cost, epsilon=0.1, smooth=0, function="gaussian")
 train(one_d_array, rbfi)
+
+x = np.linspace(min(a), max(a), 100)
+plt.plot(x, rbfi(x))
+plt.plot(a, cost, "o")
+plt.show()
