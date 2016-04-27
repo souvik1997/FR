@@ -21,22 +21,27 @@ CutNode generateCut(double a, double b, double c, double d)
 
 int main(int argc, char *argv[]) {
 
-
+  /*
   double z = 0;
-  // for(double x = -1; x <= 1; x += 0.2) {
-  //   for(double y = -(sqrt(1 - x*x)); y <= sqrt(1 - x*x); y += 0.2) {
-  //     for(double l = 0; l < 110; l += 10) {
+  for(double x = -1; x <= 1; x += 0.2) {
+    for(double y = -(sqrt(1 - x*x)); y <= sqrt(1 - x*x); y += 0.2) {
+      for(double l = 0; l < 110; l += 10) {
 
-  //       z = 1 - x*x - y*y;
-  //       CutNode cn = generateCut(x, y, z, l);
-  //       cout <<  x << " " << y << " " << z << " " << l << "= " << slice(&cn, "Colonel.obj") << "\n";
-  //     }
-  //   }
-  // }
+        z = 1 - x*x - y*y;
+        CutNode cn = generateCut(x, y, z, l);
+        cout <<  x << " " << y << " " << z << " " << l << "= " << slice(&cn, "Colonel.obj") << "\n";
+      }
+    }
+  }
+  */
 
-  CutNode cn = generateCut(0.144, -0.241, 0.9211, 33.7);
-    cout << cn << "\n";
-
-  cout  << "= " << slice(&cn, "Colonel.obj") << "\n";
+  /* xy case */
+  for (double y = -1; y <= 1; y += 0.2) {
+    for (double x = -sqrt(1-y*y); x <= sqrt(1-y*y); x += 0.2) {
+      double l = 70;
+      double z = 0;
+      CutNode cn = generateCut(x, y, z, l);
+      cout <<  x << " " << y << " " << z << " " << l << " " << slice(&cn, "Colonel.obj") << "\n";
+    }
+  }
 }
-
