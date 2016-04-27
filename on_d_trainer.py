@@ -5,23 +5,25 @@ from deap import creator
 from deap import tools
 import subprocess
 from find_minimum import train
+#from rbf import Rbf
+from scipy.interpolate import Rbf
+import sys
+import random
 
 
+def one_d_array():
+    return [random.uniform(-1, 1)]
 
-def evalFitness(ind):
-    return (rbfi(ind[0], ind[1], ind[2], ind[3])
+a = []
+cost = []
+
+with open(sys.argv[1]) as fn:
+    for line in fn:
+        cols = line.split()
+        if len(cols) > 1:
+            a.append(float(cols[0]))
+            cost.append(float(cols[1]))
 
 
-
-with open(sys.argv[1]) as fn: 
-    for line in fn: 
-            cols = line.split() 
-                if len(cols) > 4:
-                    a.append(float(cols[0])) 
-                    cost.append(float(cols[4])) 
-        
-
-
-def one_d_array:
-    return [random.uniform(min=-1, max=1)]
-
+rbfi = Rbf(a, cost, epsilon=0.1, smooth=3)
+train(one_d_array, rbfi)

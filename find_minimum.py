@@ -15,7 +15,7 @@ def train(individual_generator, rbfi):
     def evalFitness(ind):
         actual_individual = ind[0]
         value = rbfi(*actual_individual)
-        print("{0} => {1}", actual_individual, value)
+        print("{0} => {1}".format(actual_individual, value))
         return (value,)
 
     MAX_X = 100
