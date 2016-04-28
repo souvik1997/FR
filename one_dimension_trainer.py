@@ -38,7 +38,7 @@ with open(sys.argv[2]) as fn:
             unseen_cost.append(float(cols[1]))
 
 
-rbfi = Rbf(a, cost, epsilon=0.1, smooth=0, function="gaussian")
+rbfi = Rbf(a, cost, epsilon=0.1, smooth=1, function="multiquadric")
 train(one_d_array, rbfi)
 
 x = np.linspace(min(a), max(a), 100)
