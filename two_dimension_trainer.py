@@ -21,6 +21,9 @@ def two_d_array():
 a = []
 b = []
 cost = []
+unseen_a = []
+unseen_b = []
+unseen_cost = []
 
 with open(sys.argv[1]) as fn:
     for line in fn:
@@ -29,6 +32,15 @@ with open(sys.argv[1]) as fn:
             a.append(float(cols[0]))
             b.append(float(cols[1]))
             cost.append(float(cols[4]))
+
+
+with open(sys.argv[2]) as fn:
+    for line in fn:
+        cols = line.split()
+        if len(cols) > 1:
+            unseen_a.append(float(cols[0]))
+            unseen_b.append(float(cols[1]))
+            unseen_cost.append(float(cols[4]))
 
 
 rbfi = Rbf(a, b, cost, epsilon=0.1, smooth=1, function="multiquadric")
@@ -41,4 +53,5 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection="3d")
 ax.plot_surface(xs, ys, rbfi(xs, ys), rstride=3, cstride=3, linewidth=0, cmap=cm.coolwarm)
 ax.scatter(a, b, zs=cost, s=50, c="black")
+ax.scatter(unseen_a, unseen_b, zs=unseen_cost, s=50, c="green")
 plt.show()
