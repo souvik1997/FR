@@ -40,13 +40,37 @@ int main(int argc, char *argv[]) {
   */
 
 
+
   /* Same code as above, but keep l and z constant. This varies x and y */
-  for (double y = -1; y <= 1; y += 0.2) {
-    for (double x = -sqrt(1-y*y); x <= sqrt(1-y*y); x += 0.2) {
-      double l = 70;
-      double z = 0;
-      CutNode cn = generateCut(x, y, z, l);
-      cout <<  x << " " << y << " " << z << " " << l << " " << slice(&cn, "Colonel.obj") << "\n";
-    }
+//  for (double y = -1; y <= 1; y += 0.2) {
+  //  for (double x = -sqrt(1-y*y); x <= sqrt(1-y*y); x += 0.2) {
+    //  double l = 70;
+    //  double z = 0;
+    //  CutNode cn = generateCut(x, y, z, l);
+    //  cout <<  x << " " << y << " " << z << " " << l << " " << slice(&cn, "Colonel.obj") << "\n";
+//    }
+
+  /* xy case */
+//   for (double y = -1; y <= 1; y += 0.2) {
+//     for (double x = -sqrt(1-y*y); x <= sqrt(1-y*y); x += 0.2) {
+//       double l = 70;
+//       double z = 0;
+//       CutNode cn = generateCut(x, y, z, l);
+//       cout <<  x << " " << y << " " << z << " " << l << " " << slice(&cn, "Colonel.obj") << "\n";
+//     }
+//   }
+
+  /*x case*/
+
+
+  double y = 0.8;
+  double l = 70;
+  double z = 0;
+  for(double x = -0.95; x < 0.95; x += 0.1) {
+    CutNode cn = generateCut(x, y, z, l);
+      cout <<  x << " " << slice(&cn, "Colonel.obj") << "\n";
+
   }
+
+
 }

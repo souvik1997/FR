@@ -5,7 +5,7 @@ from deap import creator
 from deap import tools
 import subprocess
 from find_minimum import train
-#from rbf import Rbf
+# from rbf import Rbf
 from scipy.interpolate import Rbf
 import sys
 import random
@@ -27,7 +27,9 @@ with open(sys.argv[1]) as fn:
             cost.append(float(cols[1]))
 
 
+
 rbfi = Rbf(a, cost, epsilon=0.1, smooth=1, function="multiquadric")
+
 train(one_d_array, rbfi)
 
 x = np.linspace(min(a), max(a), 100)
