@@ -18,6 +18,8 @@ def one_d_array():
 
 a = []
 cost = []
+unseen_a = []
+unseen_cost = []
 
 with open(sys.argv[1]) as fn:
     for line in fn:
@@ -28,11 +30,19 @@ with open(sys.argv[1]) as fn:
 
 
 
-rbfi = Rbf(a, cost, epsilon=0.1, smooth=1, function="multiquadric")
+with open(sys.argv[2]) as fn:
+    for line in fn:
+        cols = line.split()
+        if len(cols) > 1:
+            unseen_a.append(float(cols[0]))
+            unseen_cost.append(float(cols[1]))
 
+
+rbfi = Rbf(a, cost, epsilon=0.1, smooth=0, function="gaussian")
 train(one_d_array, rbfi)
 
 x = np.linspace(min(a), max(a), 100)
 plt.plot(x, rbfi(x))
-plt.plot(a, cost, "o")
+plt.plot(a, cost, "o", c="b")
+plt.plot(unseen_a, unseen_cost, "o", c="r")
 plt.show()
