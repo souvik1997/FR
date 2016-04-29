@@ -21,6 +21,7 @@ def train(individual_generator, rbfi):
     MAX_X = 100
     CXPB = 0.8
     NGEN = 20
+    MUTPB=0.3
 
     toolbox = base.Toolbox()
     creator.create("FitnessMax", base.Fitness, weights=(-1.0,))
@@ -46,7 +47,7 @@ def train(individual_generator, rbfi):
                 del child1.fitness.values
                 del child2.fitness.values
         for mutant in offspring:
-            if random.random() < NGEN:
+            if random.random() < MUTPB:
                 toolbox.mutate(mutant[0])
                 del mutant.fitness.values
         invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
