@@ -30,15 +30,15 @@ with open(sys.argv[1]) as fn:
 
 
 
-with open(sys.argv[2]) as fn:
+"""with open(sys.argv[2]) as fn:
     for line in fn:
         cols = line.split()
         if len(cols) > 1:
             unseen_a.append(float(cols[0]))
             unseen_cost.append(float(cols[1]))
+"""
 
-
-rbfi = Rbf(a, cost, epsilon=0.1, smooth=1, function="multiquadric")
+rbfi = Rbf(a, cost, epsilon=0.1, smooth=0, function="multiquadric")
 train(one_d_array, rbfi)
 
 x = np.linspace(min(a), max(a), 100)

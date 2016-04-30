@@ -43,7 +43,7 @@ with open(sys.argv[2]) as fn:
             unseen_cost.append(float(cols[4]))
 
 
-rbfi = Rbf(a, b, cost, epsilon=0.1, smooth=1, function="multiquadric")
+rbfi = Rbf(a, b, cost, epsilon=0.1, smooth=0, function="multiquadric")
 train(two_d_array, rbfi)
 
 xs = np.linspace(min(a), max(a), 100)
