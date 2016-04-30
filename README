@@ -1,1 +1,6 @@
+Compiling C++ code:
+Run `make`
+
+
+Viewing graphs:
 Run `python one_dimension_trainer.py data1d.txt 1d_unseen.txt` and `python two_dimension_trainer.py dataxy.txt 2d_unseen.txt`
